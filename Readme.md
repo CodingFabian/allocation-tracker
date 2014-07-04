@@ -14,7 +14,7 @@ The agent does not differentiate between live and garbage objects, issues with l
 ## Limitations
 By design you have to give a non empty prefix which limits the classes which are instrumented. You should use your own package only. Trying to track JVM/platform packages is not recommended.
 
-If you create more than `Long.MAX_VALUE` instances of a tracked class the counter will roll over without you noticing it, but that scenario is unlikely. The agent uses `AtomicLong` to track the instantiations for broad JVM support. It it proves to be contented, a `LongAdder` might be used in conjunction with Java 8.
+If you create more than `Long.MAX_VALUE` instances of a tracked class the counter will roll over without you noticing it, but that scenario is unlikely. The agent uses `AtomicLong` to track the instantiations for broad JVM support. If it proves to be contented, a `LongAdder` might be used in conjunction with Java 8.
 
 The agent is controlled by a `PlatformMBeanServer` MBean. This might require activation on certain application servers.
 
@@ -25,6 +25,9 @@ Build with `mvn package`. Run your application with `-javaagent:/path/to/agent.j
 
 E.g if your name is Fabian and you are working on a codecentric project on your Macbook:
 `-javaagent:/Users/fabian/work/allocation-tracker/target/allocation-tracker-agent-0.0.1-SNAPSHOT.jar=de.codecentric`
+
+After the agent has printed `codecentric allocation agent - Registered Agent MBean.` the agent is ready to use.
+Connect to the JVM with any JMX client and use the `de.codecentric.Agent` MBean to `start` tracking allocations. Use `stop` to stop tracking allocations. `printTop`can be used any time to print the most often created object instances. The parameter will control the amount of output. If the parameter is zero or less, it will default to 100.
 
 ## Where are the freaking tests?
 Glad that you asked. Please take a look at the source files and then come up with a sensible unit test. If you manage to do that feel free to put up a PR.
