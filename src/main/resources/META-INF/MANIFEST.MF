@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Class-Path: 
+Premain-class: de.codecentric.performance.agent.allocation.AllocationProfilingAgent
+Can-Redefine-Classes: true
