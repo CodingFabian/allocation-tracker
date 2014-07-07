@@ -1,5 +1,10 @@
 package de.codecentric.performance.agent.allocation;
 
+import static de.codecentric.performance.agent.allocation.TrackerConfig.CONCURRENCY_LEVEL;
+import static de.codecentric.performance.agent.allocation.TrackerConfig.DEFAULT_AMOUNT;
+import static de.codecentric.performance.agent.allocation.TrackerConfig.LOAD_FACTOR;
+import static de.codecentric.performance.agent.allocation.TrackerConfig.MAP_SIZE;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map.Entry;
@@ -10,40 +15,12 @@ import java.util.concurrent.atomic.AtomicLong;
 /**
  * Main class, which is notified by BCI inserted code when an object is constructed. This class keeps a
  * ConcurrentHashMap with class names as keys. This is "leaking" the class name by design, so that the class name string
- * is kept even when the class has been unloaded. For each class name the ConcurrentHashMap will store an
- * AtmomicLongInstance.
+ * is kept even when the class has been unloaded. For each class name the ConcurrentHashMap will store an AtmomicLong
+ * instance.
+ * 
+ * Compatibility: Java 6-7
  */
 public class Tracker {
-
-  /*
-   * Default number of top classes returned in buildTopList when the argument is <= 0.
-   * 
-   * Convenience only, no performance impact.
-   */
-  private static final int DEFAULT_AMOUNT = 100;
-
-  /*
-   * Default size is insufficient in almost all real world scenarios. Any number is a pure guess. 1000 is a good
-   * starting point.
-   * 
-   * Impacts memory usage.
-   */
-  private static final int MAP_SIZE = 1000;
-
-  /*
-   * Default load factor of 0.75 should work fine.
-   * 
-   * Impacts memory usage. Low values impact cpu usage.
-   */
-  private static final float LOAD_FACTOR = 0.75f;
-
-  /*
-   * Default concurrency level of 16 threads is probably sufficient in most real world deployments. Note that the
-   * setting is for updating threads only, thus is concerned only when a tracked class is instantiated the first time.
-   * 
-   * Impacts memory and cpu usage.
-   */
-  private static final int CONCURRENCY_LEVEL = 16;
 
   private static ConcurrentHashMap<String, AtomicLong> counts = new ConcurrentHashMap<String, AtomicLong>(MAP_SIZE,
       LOAD_FACTOR, CONCURRENCY_LEVEL);
@@ -107,7 +84,7 @@ public class Tracker {
     ArrayList<ClassCounter> cc = new ArrayList<ClassCounter>(entrySet.size());
 
     for (Entry<String, AtomicLong> entry : entrySet) {
-      cc.add(new ClassCounter(entry.getKey(), entry.getValue().get()));
+      cc.add(new ClassCounter(entry.getKey(), entry.getValue().longValue()));
     }
     Collections.sort(cc);
     StringBuilder sb = new StringBuilder();

@@ -28,7 +28,7 @@ public class AllocationTrackerClassFileTransformer implements ClassFileTransform
   @Override
   public byte[] transform(ClassLoader loader, final String className, Class<?> classBeingRedefined,
       ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
-    if (className.startsWith("de/codecentric/performance/agent/")) {
+    if (className.startsWith(TrackerConfig.AGENT_PACKAGE_PREFIX)) {
       // Safeguard: do not instrument our own classes
       return classfileBuffer;
     }
