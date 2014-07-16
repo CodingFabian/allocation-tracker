@@ -48,7 +48,3 @@ Connect to the JVM with any JMX client and use the `de.codecentric.Agent` MBean 
 
 ## Where are the freaking tests?
 Glad that you asked. Please take a look at the source files and then come up with a sensible unit test. If you manage to do that feel free to put up a PR.
-
-## Info on ASM
-This agent uses ASM (http://asm.ow2.org/) for bytecode manipulation. It contains a repackaged asm 5.0.3 implementation in the `de.codecentric.performance.asm` package. Besides the package move it is the original ASM code and all of their copyrights apply.
-It has been repackaged to avoid conflicts with possible other ASM versions on the classpath.

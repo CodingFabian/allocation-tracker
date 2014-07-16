@@ -4,11 +4,11 @@ import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
 import java.security.ProtectionDomain;
 
-import de.codecentric.performance.agent.asm.org.objectweb.asm.ClassReader;
-import de.codecentric.performance.agent.asm.org.objectweb.asm.ClassVisitor;
-import de.codecentric.performance.agent.asm.org.objectweb.asm.ClassWriter;
-import de.codecentric.performance.agent.asm.org.objectweb.asm.MethodVisitor;
-import de.codecentric.performance.agent.asm.org.objectweb.asm.Opcodes;
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassVisitor;
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
 
 /**
  * ClassFileTransformer implementation which will use ASM to visit the bytecode of constructors of classes matching the
