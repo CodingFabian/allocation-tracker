@@ -1,7 +1,7 @@
 package de.codecentric.performance.agent.allocation;
 
-import de.codecentric.performance.agent.asm.org.objectweb.asm.MethodVisitor;
-import de.codecentric.performance.agent.asm.org.objectweb.asm.Opcodes;
+import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
 
 /**
  * Changes the bytecode of the visited constructor to call the static tracker. technically could be added to any method.
