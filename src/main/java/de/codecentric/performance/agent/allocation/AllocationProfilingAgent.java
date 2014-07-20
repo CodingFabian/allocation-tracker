@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.instrument.Instrumentation;
 import java.lang.management.ManagementFactory;
+import java.util.concurrent.TimeUnit;
 
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
@@ -47,7 +48,7 @@ public class AllocationProfilingAgent {
               AgentLogger.log("Could not register Agent MBean in 10 minutes.");
               return;
             }
-            Thread.sleep(10000l);
+            TimeUnit.SECONDS.sleep(10);
             mbs = ManagementFactory.getPlatformMBeanServer();
           }
           mbs.registerMBean(new Agent(), new ObjectName("de.codecentric:type=Agent"));
