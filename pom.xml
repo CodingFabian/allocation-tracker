@@ -45,11 +45,11 @@
 				<version>2.3</version>
 				<executions>
 					<execution>
-					        <phase>package</phase>
-					        <goals>
-					            <goal>shade</goal>
-					        </goals>
-					        <configuration>
+						<phase>package</phase>
+							<goals>
+								<goal>shade</goal>
+							</goals>
+							<configuration>
 							<relocations>
 								<relocation>
 									<pattern>org.objectweb.asm</pattern>
@@ -61,13 +61,22 @@
 				</executions>
 			</plugin>
 		</plugins>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>build-helper-maven-plugin</artifactId>
+					<version>1.9.1</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.11</version>
+			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -104,7 +113,6 @@
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>build-helper-maven-plugin</artifactId>
-						<version>1.9</version>
 						<executions>
 							<execution>
 								<id>add-source</id>
@@ -122,6 +130,16 @@
 					</plugin>
 				</plugins>
 			</build>
+			<dependencies>
+				<!-- JDK util functionality for attaching -->
+				<dependency>
+					<groupId>com.sun</groupId>
+					<artifactId>tools</artifactId>
+					<version>1.6</version>
+					<scope>system</scope>
+					<systemPath>${java.home}/../lib/tools.jar</systemPath>
+				</dependency>
+			</dependencies>
 		</profile>
 		<profile>
 			<id>java-8</id>
@@ -134,7 +152,6 @@
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>build-helper-maven-plugin</artifactId>
-						<version>1.9</version>
 						<executions>
 							<execution>
 								<id>add-source</id>
@@ -152,6 +169,46 @@
 					</plugin>
 				</plugins>
 			</build>
+			<dependencies>
+				<!-- JDK util functionality for attaching -->
+				<dependency>
+					<groupId>com.sun</groupId>
+					<artifactId>tools</artifactId>
+					<version>1.8</version>
+					<scope>system</scope>
+					<systemPath>${java.home}/../lib/tools.jar</systemPath>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>java-9</id>
+			<properties>
+				<maven.compiler.source>1.9</maven.compiler.source>
+				<maven.compiler.target>1.9</maven.compiler.target>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>build-helper-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>add-source</id>
+								<phase>generate-sources</phase>
+								<goals>
+									<goal>add-source</goal>
+								</goals>
+								<configuration>
+									<sources>
+										<source>src/main/java8</source>
+									</sources>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+			<!-- tools.jar is now part of JDK 9, no dependency needed. -->
 		</profile>
 	</profiles>
 
